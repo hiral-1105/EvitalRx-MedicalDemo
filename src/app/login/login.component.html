@@ -1,0 +1,42 @@
+
+
+<div class="login-container">
+  <div class="background-image"></div>
+
+  <header class="header">
+    <h1>EvitalRx</h1>
+  </header>
+
+  <div class="login-form-container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
+      <h2>Login</h2>
+      <mat-form-field class="example-full-width">
+        <mat-label>Mobile</mat-label>
+        <input type="text" matInput formControlName="mobile"
+          [errorStateMatcher]="matcher" placeholder="8866099491">
+        <mat-error
+          *ngIf="loginForm.get('mobile')?.hasError('pattern') && !loginForm.get('mobile')?.hasError('required')">
+          Please enter a valid mobile number
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('mobile')?.hasError('required')">
+          Mobile number is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput formControlName="password"
+          [errorStateMatcher]="matcher" placeholder="Your password">
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="loginForm.invalid"
+        type="submit">LogIn</button>
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+    </form>
+  </div>
+</div>

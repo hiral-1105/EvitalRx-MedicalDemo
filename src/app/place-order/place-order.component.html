@@ -1,0 +1,51 @@
+<div class="place-order-container">
+  <h2 class="form-title">Place Order</h2>
+
+  <div class="medicine-list">
+    <mat-card *ngFor="let medicine of selectedMedicines; let i = index" class="medicine-card">
+      <mat-card-header>
+        <mat-card-title>{{ medicine.medicine_name }}</mat-card-title>
+        <mat-card-subtitle>{{ medicine.manufacturer_name }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p><strong>Content:</strong> {{ medicine.content }}</p>
+        <p><strong>Packing Size:</strong> {{ medicine.packing_size }}</p>
+        <p><strong>MRP:</strong> {{ medicine.mrp | currency: 'INR':'symbol' }}</p>
+        <p><strong>Available:</strong> {{ medicine.in_stock === 'yes' ? 'Yes' : 'No' }}</p>
+
+        <!-- Quantity Dropdown or Manual Input -->
+        <div class="quantity-selector">
+          <mat-form-field appearance="outline">
+            <mat-label>Quantity</mat-label>
+        
+            <!-- Dropdown for Quantity -->
+            <mat-select [(value)]="medicine.quantity" (selectionChange)="updateQuantity(i, $event.value)" *ngIf="!medicine.showManualInput">
+              <mat-option *ngFor="let num of quantityOptions" [value]="num">{{ num }}</mat-option>
+              <mat-option [value]="10">10+</mat-option>
+            </mat-select>
+        
+            <!-- Manual Input for Quantity if 10+ is Selected -->
+            <!-- <mat-form-field *ngIf="medicine.showManualInput" appearance="outline">
+              <mat-label>Manual Quantity</mat-label> -->
+              <input matInput  *ngIf="medicine.showManualInput" type="number" [(ngModel)]="medicine.manualQuantity" (ngModelChange)="updateManualQuantity(i, $event)" min="1" />
+            <!-- </mat-form-field> -->
+          </mat-form-field>
+        </div>
+
+        <p><strong>Subtotal:</strong> {{ medicine.subtotal | currency: 'INR':'symbol' }}</p>
+      </mat-card-content>
+
+      <!-- <mat-card-actions>
+       
+        <button mat-raised-button color="warn" (click)="removeMedicine(i)">Remove</button>
+      </mat-card-actions> -->
+    </mat-card>
+  </div>
+
+  <div class="total-section">
+    <h3>Total: {{ total | currency: 'INR':'symbol' }}</h3>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="placeOrder()">Place Order</button>
+</div>

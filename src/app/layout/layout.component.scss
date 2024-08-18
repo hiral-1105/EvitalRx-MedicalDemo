@@ -1,0 +1,21 @@
+/* Sticky tab header */
+.sticky-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+mat-tab-group {
+  margin: 0;
+  padding: 0;
+}
+
+

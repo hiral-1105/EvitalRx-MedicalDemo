@@ -1,0 +1,58 @@
+<h2>Place Your Order</h2>
+<form [formGroup]="orderForm" (ngSubmit)="onPlaceOrder()">
+  <!-- Patient ID and Name (Disabled) -->
+  <mat-form-field appearance="fill">
+    <mat-label>Patient ID</mat-label>
+    <input matInput [value]="patientId" disabled>
+  </mat-form-field>
+
+
+  <!-- Delivery Type -->
+  <mat-form-field appearance="fill">
+    <mat-label>Delivery Type</mat-label>
+    <mat-select formControlName="delivery_type">
+      <mat-option value="pickup">Pickup</mat-option>
+      <mat-option value="delivery">Delivery</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Address Fields (Shown only for delivery) -->
+  <mat-form-field appearance="fill" >
+    <mat-label>Address</mat-label>
+    <input matInput formControlName="address">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Address Line 2</mat-label>
+    <input matInput formControlName="address_line2">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>City</mat-label>
+    <input matInput formControlName="city">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>State</mat-label>
+    <input matInput formControlName="state">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Zipcode</mat-label>
+    <input matInput formControlName="zipcode">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Full adress</mat-label>
+    <input matInput formControlName="full_address">
+  </mat-form-field>
+
+  <!-- Medicine List -->
+  <h3>Medicines</h3>
+  <ul>
+    <li *ngFor="let medicine of medicines">
+      Medicine Name: {{ medicine.medicine_name }} ---- Quantity: {{ medicine.quantity }}
+    </li>
+  </ul>
+
+  <button mat-raised-button color="primary" type="submit">Place Order</button>
+</form>

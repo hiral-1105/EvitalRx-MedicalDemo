@@ -1,0 +1,67 @@
+<div class="form-container">
+  <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+    <h1 class="form-title">Add Patient Data</h1>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Zip Code</mat-label>
+      <input matInput formControlName="zipcode" type="text">
+      <mat-error *ngIf="patientForm.get('zipcode')?.hasError('required')">
+        Zip Code is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="patientForm.get('zipcode')?.hasError('pattern')">
+        Zip Code must be a valid number
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Mobile Number</mat-label>
+      <input matInput formControlName="mobile" type="text">
+      <mat-error *ngIf="patientForm.get('mobile')?.hasError('required')">
+        Mobile number is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="patientForm.get('mobile')?.hasError('pattern')">
+        Please enter a valid mobile number
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="first_name">
+      <mat-error *ngIf="patientForm.get('first_name')?.hasError('required')">
+        First Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="last_name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date of Birth</mat-label>
+      <input matInput formControlName="dob" type="date">
+      <mat-error *ngIf="patientForm.get('dob')?.hasError('required')">
+        Date of Birth is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Gender</mat-label>
+      <mat-select formControlName="gender">
+        <mat-option value="male">Male</mat-option>
+        <mat-option value="female">Female</mat-option>
+        <mat-option value="other">Other</mat-option>
+      </mat-select>
+      <mat-error *ngIf="patientForm.get('gender')?.hasError('required')">
+        Gender is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Blood Group</mat-label>
+      <input matInput formControlName="blood_group">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Add Patient</button>
+  </form>
+</div>

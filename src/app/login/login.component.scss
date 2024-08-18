@@ -1,0 +1,91 @@
+
+/* Background image */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Cover 60% of the screen width */
+  height: 100%;
+  background: url('../../assets/medical-health-doctor.jpg') no-repeat center center;
+  background-size: cover;
+  // z-index: -1; /* Place behind other content */
+}
+
+/* Header styling */
+.header {
+  position: absolute;
+  top: 0; /* Align to the top */
+  left: 0; /* Stretch from the left edge */
+  width: 100%; /* Full width of the screen */
+  // text-align: center; /* Center-align text */
+  padding: 20px 0; /* Vertical padding for spacing */
+  font-size: 36px; /* Adjust size as needed */
+  font-weight: 700; /* Bolder font weight */
+  background-color: #7a97cf; /* Blue color for the text */
+  z-index: 1; /* Ensure header is above the background image */
+}
+
+/* Login form container */
+.login-form-container {
+  width: 30%; /* Cover 40% of the screen width */
+  background: #ecebeb; /* White background color */
+  color: black; /* Black text color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: absolute;
+  right: 0;
+  height: 100%; /* Full height */
+  animation: slideIn 1s ease-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow for a classy look */
+  border: 1px solid #ddd; /* Light border around the form */
+  border-radius: 8px; /* Rounded corners */
+}
+
+/* Form styling */
+.login-form {
+  width: 74%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #3f4d72;
+  text-align: center;
+  font-weight: 600;
+}
+/* Button styling */
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed; 
+}
+.error-message {
+  color: red;
+  margin-top: 15px;
+  text-align: center;
+}
+/* Keyframes for animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

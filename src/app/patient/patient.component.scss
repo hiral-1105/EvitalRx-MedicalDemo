@@ -1,0 +1,54 @@
+/* Container for centering the form */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  background: #f0f0f0; /* Light background color */
+}
+
+/* Form styling */
+mat-form-field {
+  display: block;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+/* Make form a fixed width */
+form {
+  width: 400px; /* Adjust as needed */
+  background: white;
+  padding: 20px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  animation: fadeIn 0.5s ease-in-out; /* Fade-in animation */
+}
+
+/* Animation for fade-in effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.form-title {
+  text-align: center;
+  color: #3f51b5; /* Blue color */
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+/* Styling for buttons */
+button {
+  margin-top: 16px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: #303f9f; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}

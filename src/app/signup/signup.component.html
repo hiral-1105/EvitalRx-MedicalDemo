@@ -1,0 +1,55 @@
+
+<div class="signup-container">
+  <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+    <label for="mobile">Mobile Number</label>
+    <input
+      type="text"
+      id="mobile"
+      formControlName="mobile"
+    />
+    <button (click)="requestOtp()">Send OTP</button>
+    <label for="firstname">First Name</label>
+    <input
+      type="text"
+      id="firstname"
+      formControlName="firstname"
+    />
+
+    <label for="lastname">Last Name</label>
+    <input
+      type="text"
+      id="lastname"
+      formControlName="lastname"
+    />
+
+    <label for="otp">OTP</label>
+    <input
+      type="text"
+      id="otp"
+      formControlName="otp"
+    />
+
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      formControlName="password"
+    />
+
+    <label for="os">Operating System</label>
+    <select id="os" formControlName="os">
+      <option value="web">Web</option>
+      <option value="android">Android</option>
+      <option value="os">iOS</option>
+    </select>
+
+    <label for="zipcode">Zipcode</label>
+    <input
+      type="text"
+      id="zipcode"
+      formControlName="zipcode"
+    />
+
+    <button type="submit">Sign Up</button>
+  </form>
+</div>

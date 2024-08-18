@@ -1,0 +1,22 @@
+
+<mat-toolbar color="primary" class="header-toolbar">
+  <span class="title">EvitalRx</span>
+  <span class="spacer"></span>
+
+  <button mat-icon-button (click)="home()">
+    <mat-icon>home</mat-icon>
+  </button>
+
+  <button mat-icon-button (click)="goToCheckout()">
+    <mat-icon>add_shopping_cart</mat-icon>
+  </button>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="onLogout()">Logout</button>
+    <button mat-menu-item (click)="onSettings()">Settings</button>
+  </mat-menu>
+ 
+</mat-toolbar>
