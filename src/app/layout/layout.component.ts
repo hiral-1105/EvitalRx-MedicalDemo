@@ -23,52 +23,49 @@ export class LayoutComponent {
   currentTabIndex: number = 0;
   showTabs: boolean = true;
   constructor(private router: Router) {}
+
   ngOnInit() {
-
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        // Hide tabs on specific routes
-        this.showTabs = !event.url.includes('/checkout');
-        this.showTabs = !event.url.includes('/place-order');
-        this.updateTabIndex();
-      }
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.updateTabVisibilityAndIndex(event.url);
     });
-    this.updateTabIndex();
-  }
+    this.updateTabVisibilityAndIndex(this.router.url);
+  };
 
-  updateTabIndex() {
-    const url = this.router.url;
-    switch (true) {
-      case url.includes('patient'):
-        this.currentTabIndex = 3; // Index of "Patient_Data" tab
-        break;
-      case url.includes('about'):
-        this.currentTabIndex = 1; // Index of "About" tab
-        break;
-      case url.includes('company'):
-        this.currentTabIndex = 2; // Index of "Company" tab
-        break;
-      default:
-        this.currentTabIndex = 0; // Index of "Dashboard" tab
-        break;
+  updateTabVisibilityAndIndex(url: string) {
+    this.showTabs = !url.includes('/checkout') &&
+                    !url.includes('/place-order') &&
+                    !url.includes('/confirmation');
+
+
+    if (url.includes('dashboard')) {
+      this.currentTabIndex = 0;
+    } else if (url.includes('patient')) {
+      this.currentTabIndex = 1;
+    } else if (url.includes('about')) {
+      this.currentTabIndex = 2;
+    } else if (url.includes('company')) {
+      this.currentTabIndex = 3;
+    } else {
+      this.currentTabIndex = 0;
     }
+  };
 
-  }
   onTabChange(index: number) {
-
     switch (index) {
       case 0:
         this.router.navigate(['/dashboard']);
         break;
       case 1:
-        this.router.navigate(['/about']);
-        break;
-      case 2:
-        this.router.navigate(['/company']);
-        break;
-      case 3:
         this.router.navigate(['/patient']);
         break;
+      case 2:
+        this.router.navigate(['/about']);
+        break;
+      case 3:
+        this.router.navigate(['/company']);
+        break;
     }
-  }
+  };
 }

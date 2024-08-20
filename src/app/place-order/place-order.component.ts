@@ -25,18 +25,20 @@ import {MatSelectModule} from '@angular/material/select';
     ],
 
   templateUrl: './place-order.component.html',
- 
+
   styleUrl: './place-order.component.scss'
 })
 export class PlaceOrderComponent {
-  selectedMedicines: any[] =[]
-  medicines = []; // Dynamic medicine data will be loaded here
+   selectedMedicines: any[] =[]
+  medicines = [];
   subtotal = 0;
-  quantityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; 
-//   [
+  total: number = 0;
+  quantityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+//  selectedMedicines:any =   [
 //     {
 //         "medicine_id": "y8P5ElKQqfn/Dkb0uhE9Sg==",
-//         "in_stock": "yes"
+//         "in_stock": "yes",
+//         "medicine_name": "Ltk 50 Tablet",
 //     },
 //     {
 //         "medicine_id": "+ZqERHcCTAeuxsJheIXjyw==",
@@ -60,20 +62,15 @@ export class PlaceOrderComponent {
 // ]
 
   constructor(private router: Router,public dialog: MatDialog) {}
-  
-  total: number = 0;
- 
-   
-
   ngOnInit() {
     const state = history.state;
     if (state && state.data) {
       this.selectedMedicines = state.data.availability.map((medicine: any) => ({
         ...medicine,
-        quantity: 1, // Default quantity is 1 for each medicine
-        manualQuantity: 1, // Default manual quantity if "10+" is selected
-        showManualInput: false, // Hide manual input initially
-        subtotal: medicine.mrp // Subtotal initialized to MRP for quantity 1
+        quantity: 1,
+        manualQuantity: 1,
+        showManualInput: false,
+        subtotal: medicine.mrp
       }));
       this.calculateTotal();
     } else {
@@ -85,8 +82,8 @@ export class PlaceOrderComponent {
     const selectedMedicine = this.selectedMedicines[index];
 
     if (value === 10) {
-      selectedMedicine.showManualInput = true; // Show input field for quantities > 10
-      selectedMedicine.manualQuantity = 1; // Default for manual input
+      selectedMedicine.showManualInput = true;
+      selectedMedicine.manualQuantity = 1;
     } else {
       selectedMedicine.showManualInput = false;
       selectedMedicine.quantity = value;
@@ -96,10 +93,10 @@ export class PlaceOrderComponent {
   }
 
   updateManualQuantity(index: number, quantity: number) {
-    if (quantity < 1) {
-      quantity = 1; // Prevent quantity from being less than 1
+    if (quantity <= 1) {
+      quantity = 1;
     }
-    this.selectedMedicines[index].manualQuantity = quantity; // Update manual quantity
+    this.selectedMedicines[index].manualQuantity = quantity;
     this.updateSubtotal(index);
   }
 
@@ -110,18 +107,23 @@ export class PlaceOrderComponent {
     this.calculateTotal();
   }
 
-  // removeMedicine(index: number) {
-  //   this.selectedMedicines.splice(index, 1);
-  //   this.calculateTotal();
-  // }
+  removeMedicine(index: number) {
+    this.selectedMedicines.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(this.selectedMedicines));
+    this.calculateTotal();
+  }
 
   calculateTotal() {
-    this.total = this.selectedMedicines.reduce((acc, medicine) => acc + medicine.subtotal, 0);
+    console.log("this.selectedMedicines",this.selectedMedicines);
+    this.total = this.selectedMedicines.reduce((acc:any, medicine:any) => acc + medicine.subtotal, 0);
+    console.log(" this.total ", this.total );
+
   }
 
   placeOrder() {
     console.log("Placing order", this.selectedMedicines);
+    localStorage.setItem('cart', JSON.stringify(this.selectedMedicines));
    this.router.navigate(['confirmation']);
- 
+
   }
 }

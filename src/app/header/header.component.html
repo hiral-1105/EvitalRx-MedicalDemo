@@ -7,9 +7,12 @@
     <mat-icon>home</mat-icon>
   </button>
 
-  <button mat-icon-button (click)="goToCheckout()">
-    <mat-icon>add_shopping_cart</mat-icon>
-  </button>
+  <button mat-icon-button
+  (click)="goToCheckout()"
+  [ngClass]="{'disabled-icon': !patientData}"
+  [matTooltip]="!patientData ? 'Please fill in the patient data before proceeding to checkout.' : ''">
+  <mat-icon>{{ patientData ? 'add_shopping_cart' : 'shopping_cart' }}</mat-icon>
+</button>
 
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
@@ -18,5 +21,5 @@
     <button mat-menu-item (click)="onLogout()">Logout</button>
     <button mat-menu-item (click)="onSettings()">Settings</button>
   </mat-menu>
- 
+
 </mat-toolbar>

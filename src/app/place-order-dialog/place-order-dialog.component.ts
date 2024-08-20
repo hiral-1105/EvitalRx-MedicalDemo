@@ -1,15 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-
 import { AuthService } from '../Services/auth.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,6 +9,8 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-place-order-dialog',
   standalone: true,
@@ -26,7 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     CommonModule,
     MatSelectModule,
     FormsModule,
-    
+
     ReactiveFormsModule,
     HttpClientModule,
     MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule,
@@ -36,76 +28,71 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './place-order-dialog.component.scss'
 })
 export class PlaceOrderDialogComponent {
-  orderForm: FormGroup;
-  isPatientIdAvailable: boolean;
-  patientName: string | null = null;
-  patientData:any
-  patientId:any
-  patientDetailString: string | null = null;
-  medicines: any
+  orderForm: FormGroup | any;
+  patientId: string | undefined;
+  medicines:any
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    // private dialogRef: MatDialogRef<PlaceOrderDialogComponent>,
-   
-  ) {
-    this.isPatientIdAvailable = !localStorage.getItem('PatientDetail');
-    
-    this.orderForm = this.fb.group({
-      full_address:[''],
-      delivery_type: ['pickup', Validators.required],
-      address: [''],
-      address_line2: [''],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      zipcode: ['', Validators.required],
-     
-    });
+  private router:Router) {}
 
-    
-  }
   ngOnInit(): void {
-    // Fetch patient details from localStorage
-    this.patientDetailString = localStorage.getItem('PatientDetail');
-    if (this.patientDetailString) {
-      this.patientData = JSON.parse(this.patientDetailString);
-      this.patientId = this.patientData.patient_id;
+    // Initialize the form
+    this.orderForm = this.fb.group({
+      delivery_type: ['', Validators.required],
+      address: ['',Validators.required],
+      address_line2: ['',Validators.required],
+      city: ['',Validators.required],
+      state: ['',Validators.required],
+      zipcode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      full_address: ['',Validators.required]
+    });
+    const patientDetail = localStorage.getItem('PatientDetail');
+    if (patientDetail) {
+      this.patientId = JSON.parse(patientDetail).patient_id;
     }
-    const cartString = localStorage.getItem('cart');
-  if (cartString) {
-    const cartItems = JSON.parse(cartString);
-    
-     this.medicines = cartItems.map((item: any) => ({
-      medicine_id: item.medicine_id, // Assuming `medicine_id` exists in the cart items
-      quantity: item.quantity || 1 // Defaulting to 1 if quantity is not present
-    }));
-     console.log("  this.medicines",  this.medicines);
-     
+    const medicinesData = localStorage.getItem('cart');
+    if (medicinesData) {
+      try {
+        this.medicines = JSON.parse(medicinesData);
+      } catch (error) {
+        console.error('Error parsing medicines data from localStorage', error);
+        this.medicines = []; // Set to empty array or handle error as needed
+      }
+    } else {
+      this.medicines = []; // Set to empty array if no data is found
+    }
+
   }
+  get isDelivery(): boolean {
+    return this.orderForm.get('delivery_type')?.value === 'delivery';
   }
- 
+
   onPlaceOrder() {
-    if (this.orderForm.invalid) {
+    if (this.orderForm?.invalid) {
+      this.snackBar.open('Please fill in all required fields correctly.', 'Close', { duration: 3000 });
       return;
     }
-  
+
     const orderData = {
       patient_id: this.patientId,
-      items: JSON.stringify(this.medicines), // Adjust based on actual items data structure
-      ...this.orderForm.value
+      items: JSON.stringify(this.medicines),
+      ...this.orderForm?.value
     };
-    // if (this.orderForm.value.delivery_type === 'delivery') {
-    //   orderData.address = this.orderForm.value.address;
-    //   orderData.address_line2 = this.orderForm.value.address_line2 || ''; // Optional field
-    //   orderData.city = this.orderForm.value.city;
-    //   orderData.state = this.orderForm.value.state;
-    //   orderData.zipcode = this.orderForm.value.zipcode;
-    // }
+
     this.authService.placeOrder(orderData).subscribe(response => {
-      console.log('Order placed successfully', response);
-      this.snackBar.open('Order placed successfully!', 'Close', { duration: 3000 });
-      // Optionally, reset form or navigate to a different page
+      if(response.status_code == '1') {
+        this.snackBar.open(response.status_message, 'Close', {
+          duration: 2000,
+        });
+        this.orderForm?.reset();
+        this.router.navigate(['/dashboard'])
+      }else{
+        this.snackBar.open(response.status_message, 'Close', {
+          duration: 2000,
+        });
+      }
     }, error => {
       console.error('Order placement failed', error);
       this.snackBar.open('Order placement failed. Please try again.', 'Close', { duration: 3000 });

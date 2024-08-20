@@ -1,58 +1,12 @@
-// .place-order-container {
-//   width: 100%;
-//   max-width: 1200px;
-//   margin: 0 auto;
-//   padding: 20px;
-// }
-
-// .medicine-list {
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: space-between;
-//   gap: 20px;
-// }
-
-// .medicine-card {
-//   width: calc(50% - 20px);
-//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-//   transition: box-shadow 0.3s ease;
-// }
-
-// .medicine-card:hover {
-//   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-// }
-
-// mat-card-title, mat-card-subtitle {
-//   font-size: 16px;
-//   margin-bottom: 10px;
-// }
-
-// mat-card-content p {
-//   margin: 5px 0;
-// }
-
-// mat-card-actions {
-//   display: flex;
-//   justify-content: flex-end;
-// }
-// .form-title {
-//   text-align: center;
-//   color: #3f51b5; /* Blue color */
-//   margin-bottom: 20px;
-//   font-size: 1.5rem;
-// }
-
-// button[disabled] {
-//   background-color: #e0e0e0 !important;
-// }
-
-// @media (max-width: 768px) {
-//   .medicine-card {
-//     width: 100%;
-//   }
-// }
 .place-order-container {
   padding: 20px;
+}
+
+.form-title {
+  text-align: center;
+  color: #3f51b5; /* Blue color */
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
 .medicine-list {
@@ -63,6 +17,8 @@
 
 .medicine-card {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .quantity-selector {
@@ -72,6 +28,12 @@
 .total-section {
   margin-top: 20px;
   text-align: right;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
 button[mat-raised-button] {

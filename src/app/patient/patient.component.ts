@@ -35,7 +35,7 @@ constructor(
   private snackBar: MatSnackBar
 ){
   this.patientForm = this.fb.group({
-    zipcode: ['', Validators.required],
+    zipcode: ['', [Validators.required,Validators.pattern('^[0-9]{6}$')]],
     mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
     first_name: ['', Validators.required],
     last_name: [''],
@@ -49,13 +49,17 @@ onSubmit() {
   if (this.patientForm.valid) {
     this.authService.addPatient(this.patientForm.value).subscribe(
       (response) => {
-        this.snackBar.open('Patient added successfully!', 'Close', {
+        if(response.status_code == '1') {
+        this.snackBar.open(response.status_message, 'Close', {
           duration: 2000,
         });
-        // Use the patient ID for further actions
-         const patientId = response.data.patient_id;
         localStorage.setItem('PatientDetail',JSON.stringify(response.data))
         this.patientForm.reset();
+      }else{
+        this.snackBar.open(response.status_message, 'Close', {
+          duration: 2000,
+        });
+      }
       },
       (error) => {
         this.snackBar.open('Failed to add patient.', 'Close', {

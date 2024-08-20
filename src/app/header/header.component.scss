@@ -34,3 +34,7 @@ mat-icon-button {
 .mat-tab-label.active {
   font-weight: bold;
 }
+.disabled-icon {
+  color: gray; /* Change color to indicate disabled state */
+  cursor: not-allowed; /* Change cursor to show disabled state */
+}

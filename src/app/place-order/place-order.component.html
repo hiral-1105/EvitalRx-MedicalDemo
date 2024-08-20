@@ -14,38 +14,29 @@
         <p><strong>MRP:</strong> {{ medicine.mrp | currency: 'INR':'symbol' }}</p>
         <p><strong>Available:</strong> {{ medicine.in_stock === 'yes' ? 'Yes' : 'No' }}</p>
 
-        <!-- Quantity Dropdown or Manual Input -->
         <div class="quantity-selector">
           <mat-form-field appearance="outline">
             <mat-label>Quantity</mat-label>
-        
-            <!-- Dropdown for Quantity -->
+
             <mat-select [(value)]="medicine.quantity" (selectionChange)="updateQuantity(i, $event.value)" *ngIf="!medicine.showManualInput">
               <mat-option *ngFor="let num of quantityOptions" [value]="num">{{ num }}</mat-option>
               <mat-option [value]="10">10+</mat-option>
             </mat-select>
-        
-            <!-- Manual Input for Quantity if 10+ is Selected -->
-            <!-- <mat-form-field *ngIf="medicine.showManualInput" appearance="outline">
-              <mat-label>Manual Quantity</mat-label> -->
               <input matInput  *ngIf="medicine.showManualInput" type="number" [(ngModel)]="medicine.manualQuantity" (ngModelChange)="updateManualQuantity(i, $event)" min="1" />
-            <!-- </mat-form-field> -->
           </mat-form-field>
         </div>
 
         <p><strong>Subtotal:</strong> {{ medicine.subtotal | currency: 'INR':'symbol' }}</p>
       </mat-card-content>
-
-      <!-- <mat-card-actions>
-       
+      <mat-card-actions class="card-actions">
         <button mat-raised-button color="warn" (click)="removeMedicine(i)">Remove</button>
-      </mat-card-actions> -->
+      </mat-card-actions>
     </mat-card>
   </div>
 
   <div class="total-section">
-    <h3>Total: {{ total | currency: 'INR':'symbol' }}</h3>
+    <h2><strong>Total:</strong> {{ total | currency: 'INR':'symbol' }}</h2>
   </div>
 
-  <button mat-raised-button color="primary" (click)="placeOrder()">Place Order</button>
+  <button mat-raised-button color="primary"   (click)="placeOrder()">Place Order</button>
 </div>

@@ -1,4 +1,3 @@
-// src/app/interfaces/login.interface.ts
 
 export interface LoginRequest {
    apikey: string;

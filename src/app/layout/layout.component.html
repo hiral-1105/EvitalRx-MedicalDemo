@@ -2,14 +2,15 @@
 <app-header></app-header>
 
 
-<mat-tab-group *ngIf="showTabs" [selectedIndex]="currentTabIndex" (selectedTabChange)="onTabChange($event.index)" >
+<mat-tab-group *ngIf="showTabs" [selectedIndex]="currentTabIndex" (selectedTabChange)="onTabChange($event.index)" class="sticky-tabs" >
   <mat-tab label="Dashboard"></mat-tab>
+  <mat-tab label="Patient_Data"></mat-tab>
   <mat-tab label="About"></mat-tab>
   <mat-tab label="Company"></mat-tab>
-  <mat-tab label="Patient_Data"></mat-tab>
 </mat-tab-group>
 
-
+<div class="tab-content">
   <router-outlet></router-outlet>
+</div>
 
 
