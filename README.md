@@ -26,11 +26,17 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 - Login Page:
     This is the initial login page of the application, featuring an animated loading effect.
+    for login Credentical detail
+    [db.json](http://localhost:3000/User)
   ![Login Page](./resource/1.png)
 
 - Login Page Validation
     The login page includes form validation and authentication checks to ensure that users enter valid credentials.
   ![Login Page Validation](./resource/2.png)
+- Login Page Validation with password 
+    The login page includes form validation and authentication checks to ensure that users enter valid credentials.
+  ![Login Page Validation with password](./resource/number.png)
+  ![Login Page Validation with password](./resource/8CHar.png)
 
 - Login Page - After Validation
      After successful validation and form submission, the application communicates with the login API.
