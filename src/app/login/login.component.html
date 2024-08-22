@@ -25,18 +25,20 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>Password</mat-label>
-        <input type="password" matInput formControlName="password"
-          [errorStateMatcher]="matcher" placeholder="Your password">
-        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-          Password is <strong>required</strong>
-        </mat-error>
+        <input [type]="hidePassword ? 'password' : 'text'" matInput formControlName="password" placeholder="Your password">
+        <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
       </mat-form-field>
+
+      <div *ngIf="errorMessages.length > 0" class="error-message-container">
+        <ul>
+          <li *ngFor="let message of errorMessages">{{ message }}</li>
+        </ul>
+      </div>
 
       <button mat-raised-button color="primary" [disabled]="loginForm.invalid"
         type="submit">LogIn</button>
-        <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
-        </div>
     </form>
   </div>
 </div>

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { NgClass } from '@angular/common';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +20,7 @@ export class HeaderComponent {
   patientData:any = false
 
 
-  constructor(private router:Router,private snackBar: MatSnackBar){
+  constructor(private router:Router,private snackBar: MatSnackBar,private authService:AuthService){
 
   }
   ngOnInit() {
@@ -29,7 +30,9 @@ export class HeaderComponent {
     }
 
   }
-  onLogout(){}
+  onLogout(){
+    this.authService.logout();
+  }
 
   onSettings(){}
 

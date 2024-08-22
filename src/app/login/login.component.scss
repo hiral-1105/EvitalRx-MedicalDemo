@@ -62,7 +62,7 @@ h2 {
 /* Button styling */
 button:disabled {
   background-color: #ccc;
-  cursor: not-allowed; 
+  cursor: not-allowed;
 }
 .error-message {
   color: red;
@@ -88,4 +88,17 @@ button:disabled {
   to {
     opacity: 1;
   }
+}
+.error-message-container {
+  color: red;
+  margin-bottom: 16px;
+}
+
+.error-message-container ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.error-message-container li {
+  list-style-type: disc;
 }

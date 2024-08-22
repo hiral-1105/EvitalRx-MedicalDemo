@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LoginRequest } from '../Model/login.interface';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +14,10 @@ export class AuthService {
     private tokenKey = 'authToken'; //
     apiUrl:any ='';
     private apiKey = 'wFIMP75eG1sQEh8vVAdXykgzF4mLhDw3';
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private snackBar: MatSnackBar,) {}
 
   storeToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
@@ -46,22 +49,38 @@ export class AuthService {
     }
     return throwError(errorMessage);
   }
+  login(data: LoginRequest): any {
+console.log("data",data);
 
-  login(data: LoginRequest): Observable<any> {
-     this.apiUrl = 'https://api.evitalrx.in/v1/patient/login';
-    const APIdata={
-      apikey:'wFIMP75eG1sQEh8vVAdXykgzF4mLhDw3',
-      data:data
-    }
-    return this.http.post(this.apiUrl, APIdata).pipe(
-      tap((response: any) => {
-        if (response.token) {
-          this.storeToken(response.token);
+    return this.http.get<LoginRequest>
+    ('http://localhost:3000/User'+'?mobile=' +`${data.mobile}&password=${data.password}`).pipe(
+      map((response: LoginRequest | any) => {
+        if (response && response.length > 0) {
+          const user = response[0];
+          console.log('Login successful:', user);
+          // Save token or user data as needed
+          localStorage.setItem(this.tokenKey, JSON.stringify(user));
+          this.router.navigate(['dashboard'])
+          this.snackBar.open('Welcome to Dashbaord of EvitalRx', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
+          return user;
+        } else {
+           this.snackBar.open('Invalid credentials, please enter the correct data', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
+          return null;
         }
       }),
-      catchError(this.handleError)
+      catchError(error => {
+        console.error('Login failed', error);
+        return of(null);
+      })
     );
   }
+
   searchMedicines(query: any): Observable<any> {
     this.apiUrl = 'https://dev-api.evitalrx.in/v1/fulfillment/medicines/search';
   const APIdata={
